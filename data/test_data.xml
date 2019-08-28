@@ -1,0 +1,428 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/expor
+t-0.3.xsd" version="0.3" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikipedia</sitename>
+    <base>http://en.wikipedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.13alpha</generator>
+    <case>first-letter</case>
+      <namespaces>
+      <namespace key="-2">Media</namespace>
+      <namespace key="-1">Special</namespace>
+      <namespace key="0" />
+      <namespace key="1">Talk</namespace>
+      <namespace key="2">User</namespace>
+      <namespace key="3">User talk</namespace>
+      <namespace key="4">Wikipedia</namespace>
+      <namespace key="5">Wikipedia talk</namespace>
+      <namespace key="6">Image</namespace>
+      <namespace key="7">Image talk</namespace>
+      <namespace key="8">MediaWiki</namespace>
+      <namespace key="9">MediaWiki talk</namespace>
+      <namespace key="10">Template</namespace>
+      <namespace key="11">Template talk</namespace>
+      <namespace key="12">Help</namespace>
+      <namespace key="13">Help talk</namespace>
+      <namespace key="14">Category</namespace>
+      <namespace key="15">Category talk</namespace>
+      <namespace key="100">Portal</namespace>
+      <namespace key="101">Portal talk</namespace>
+    </namespaces>
+  </siteinfo>
+<page>
+    <title>Kim Hyeon-Woo</title>
+    <ns>0</ns>
+    <id>42567205</id>
+    <redirect title="Kim Hyeon-woo" />
+    <revision>
+      <id>605512342</id>
+      <timestamp>2014-04-23T21:02:00Z</timestamp>
+      <contributor>
+        <username>Mohsen1248</username>
+        <id>3761856</id>
+      </contributor>
+      <comment>Mohsen1248 moved page [[Kim Hyeon-Woo]] to [[Kim Hyeon-woo]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">#REDIRECT [[Kim Hyeon-woo]]
+{{R from move}}</text>
+      <sha1>16kop2unyres98bcaxkfj1674q7xcfd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Lee Se-Yeol</title>
+    <ns>0</ns>
+    <id>42567208</id>
+    <redirect title="Lee Se-yeol" />
+    <revision>
+      <id>605512408</id>
+      <timestamp>2014-04-23T21:02:32Z</timestamp>
+      <contributor>
+        <username>Mohsen1248</username>
+        <id>3761856</id>
+      </contributor>
+      <comment>Mohsen1248 moved page [[Lee Se-Yeol]] to [[Lee Se-yeol]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">#REDIRECT [[Lee Se-yeol]]
+{{R from move}}</text>
+      <sha1>6d40t9mkghnknpebayjf6uhmgswkp0r</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Marko Virtanen</title>
+    <ns>0</ns>
+    <id>42567219</id>
+    <revision>
+      <id>853776442</id>
+      <parentid>821144454</parentid>
+      <timestamp>2018-08-06T22:47:07Z</timestamp>
+      <contributor>
+        <username>Joeykai</username>
+        <id>14841472</id>
+      </contributor>
+      <minor />
+      <comment>/* External links */clean up, replaced: {{Finland-icehockey-bio-stub}} → {{Finland-icehockey-player-stub}} using [[Project:AWB|AWB]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">{{BLP sources|date=July 2014}}
+{{Use mdy dates|date=April 2014}}
+{{Infobox ice hockey player
+| name = Marko Virtanen
+| image = 
+| caption =
+| image_size = 225px
+| played_for = '''''[[SM-liiga]]'''''&lt;br&gt;[[JYP Jyväskylä]]&lt;br&gt;'''''[[Swedish Hockey League|Elitserien]]'''''&lt;br&gt;[[Färjestad BK]]&lt;br&gt;[[Södertälje SK]]
+| position = [[Winger (ice hockey)|Right Wing]]
+| height_ft = 5
+| height_in = 10
+| weight_lb = 181
+| shoots = Left
+| birth_date = {{birth date and age|1968|12|10}}
+| birth_place = [[Jyväskylä]], [[Finland]]
+| draft = Undrafted
+| career_start = 1988
+| career_end = 2000
+}}
+'''Marko Virtanen''' (born December 10, 1968) is a [[Finland|Finnish]] former professional [[ice hockey]] player. He is currently the head coach of [[JYP Jyväskylä]] in the Finnish [[Liiga]].
+
+Virtanen assumed the position of head coach for JYP with the [[2013–14 Liiga season]].&lt;ref name=&quot;jypliiga&quot;&gt;{{cite web | url=http://www.jypliiga.fi/uutiset/marko-virtanen-jypin-paavalmentajaksi-2013-2015 | title=Marko Virtanen JYPin päävalmentajaksi 2013 – 2015 | publisher=Jypliiga | accessdate=25 July 2014 | deadurl=yes | archiveurl=https://web.archive.org/web/20150316112244/http://www.jypliiga.fi/uutiset/marko-virtanen-jypin-paavalmentajaksi-2013-2015 | archivedate=March 16, 2015 | df=mdy-all }}&lt;/ref&gt;
+
+==References==
+{{Reflist}}
+
+==External links==
+*{{Eliteprospects}}
+*{{hockeydb|34132|Marko Virtanen}}
+
+{{DEFAULTSORT:Virtanen, Marko}}
+[[Category:1968 births]]
+[[Category:Living people]]
+[[Category:Färjestad BK players]]
+[[Category:Finnish ice hockey coaches]]
+[[Category:Finnish ice hockey players]]
+[[Category:JYP Jyväskylä players]]
+[[Category:Södertälje SK players]]
+
+
+{{Finland-icehockey-player-stub}}</text>
+      <sha1>54nhqn193dp90dnwvfv6ye46j26ahrs</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Category:Sculptures in Massachusetts</title>
+    <ns>14</ns>
+    <id>42567306</id>
+    <revision>
+      <id>797926301</id>
+      <parentid>635748513</parentid>
+      <timestamp>2017-08-30T00:14:07Z</timestamp>
+      <contributor>
+        <username>Another Believer</username>
+        <id>5886041</id>
+      </contributor>
+      <comment>-</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">{{commonscat|Sculptures in Massachusetts}}
+[[Category:Art in Massachusetts|S]]
+[[Category:Sculptures in the United States by state|Massachusetts]]</text>
+      <sha1>maok7drk54zwmgdujpunzv1tnwvzn3n</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Zoltán Sulkowsky and Gyula Bartha</title>
+    <ns>0</ns>
+    <id>42577903</id>
+    <revision>
+      <id>861743529</id>
+      <parentid>769618879</parentid>
+      <timestamp>2018-09-29T18:05:17Z</timestamp>
+      <contributor>
+        <username>Ser Amantio di Nicolao</username>
+        <id>753665</id>
+      </contributor>
+      <minor />
+      <comment>/* Sources */add authority control, test</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">'''Zoltán Sulkowsky and Gyula Bartha''' (born c. 1904–1905{{sfn|New York Times|1932}}) were Hungarian [[long-distance motorcycle riding|long-distance motorcycle riders]] who traveled over {{convert|170,000|km|sp=us}}&lt;ref&gt;{{cite book|last1=Sulkowsky|first1=Zoltán|title=Around the World on a Motorcycle: 1928 To 1936|translator=Noémi M. Najbauer|date=2008|publisher=Whitehorse Press|location=Center Conway, New Hampshire|isbn=978-1-884313-55-4|page=407}}&lt;/ref&gt; on a [[Harley-Davidson]] [[sidecar]] rig between 1928 and 1936.{{sfn|Motorcyclist|1936}} Their travels are recounted in a book originally published in Hungarian in 1937, and reissued in an English translation in 2008.{{sfn|Roadrunner|2013}}
+
+Their journey started in Hungary in August, 1928, and ended again in Hungary. Along the way they visited sixty-eight countries and regions on six continents, including: France, Germany, Spain, Czechoslovakia, Portugal, Italy, Algeria, Tunisia, Libya, Egypt, Palestine, Syria, Turkey, Bulgaria, Romania, Yugoslavia, the Sudan, India, the Arabian peninsula, French Indochina, Siam, the Malay Peninsula, Japan, China, Hawaii, and Australia;{{sfn|New York Times|1932}} then after landing in America at San Francisco, they spent two years touring North America then another two years in South America, visiting Mexico, Cuba, Panama, Ecuador, Peru, Chile, Argentina, Uruguay and Brazil.{{sfn|Tesch|2013}}
+
+==Bibliography==
+*{{citation|first=Zoltán |last=Sulkowsky|title= Motorral a Föld körül|publisher=Zeusz, Viágjárók |language=Hungarian|year=2001|origyear=First published 1937|ISBN=963-00-6862-1}}
+*{{citation|first=Zoltán |last=Sulkowsky|title= Around the World on a Motorcycle: 1928 To 1936|translator=Noémi M. Najbauer|publisher=Whitehorse Press|year=2008|ISBN=9781884313776}}
+
+==References==
+===Notes===
+{{reflist}}
+
+===Sources===
+*{{citation|title=TWO ON MOTORCYCLE HERE ON WORLD TOUR: Students Started From Budapest in 1928 -- Have Visited 43 Lands and Gone 65,000 Miles|newspaper=[[The New York Times]] |date=January 27, 1932|page=15|via=[[ProQuest]]|ref={{harvid|New York Times|1932}}}}
+*{{citation|title=The Motorcyclist Pictorial |date=January 15, 1936|journal=[[Motorcyclist (magazine)|Motorcyclist]]|url=http://www.motorcyclistonline.com/mc_100/archives/122_120227_the_motorcyclist_pictorial_january_1936/|ref={{harvid|Motorcyclist|1936}}}}
+*{{citation|title=Around the World on a Motorcycle 1928-1936 [book review]|date=March 15, 2013|journal=[[Roadrunner (magazine)|Roadrunner]]|url=http://www.roadrunner.travel/2013/03/15/around-the-world-on-a-motorcycle-1928-1936/|ref={{harvid|Roadrunner|2013}}}}
+*{{citation|url=http://www.berndtesch.de/English/Continents/WorldAround/WorldAroundMotorcycle1901-1950.html|last=Tesch|first=Bernd |date=April 11, 2013|accessdate=2014-04-26|title=Around-The-World by motorcycle, 1901-1950}}
+
+{{Long distance motorcycling}}
+
+
+{{authority control}}
+
+{{DEFAULTSORT:Sulkowsky, Zoltan}}
+[[Category:Long-distance motorcycle riders]]
+[[Category:Hungarian travel writers]]
+[[Category:Motorcycle touring writers]]
+[[Category:1900s births]]
+[[Category:Year of death missing]]
+
+
+{{motorcycle-stub}}</text>
+      <sha1>3mgd8t4oc4j6yj5smggc5ci97qzpjt0</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Nokia Research</title>
+    <ns>0</ns>
+    <id>42579194</id>
+    <redirect title="Nokia" />
+    <revision>
+      <id>831033033</id>
+      <parentid>755983206</parentid>
+      <timestamp>2018-03-18T09:58:41Z</timestamp>
+      <contributor>
+        <username>The Transhumanist</username>
+        <id>1754504</id>
+      </contributor>
+      <comment>Add template{{R to section}} to categorize redirect using [[Project:AWB|AWB]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">#REDIRECT [[Nokia#Nokia Technologies]]
+
+{{R to section}}</text>
+      <sha1>np8prkixfx5p499lidp9jffxd606elw</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Surajya</title>
+    <ns>0</ns>
+    <id>42579198</id>
+    <revision>
+      <id>828802125</id>
+      <parentid>770748397</parentid>
+      <timestamp>2018-03-04T21:09:34Z</timestamp>
+      <contributor>
+        <ip>27.4.229.205</ip>
+      </contributor>
+      <comment>/* Cast */</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">{{Use dmy dates|date=November 2015}}
+{{Use Indian English|date=November 2015}}
+{{cleanup|date=April 2014|reason=of a large amount of broken links and a broken picture}}
+
+{{Infobox film
+| name           = Surajya
+| image          = 
+| alt            =
+| caption        = Surajya (2014) Marathi Movie Poster 
+| director       = Santosh Manjrekar
+| producer       = {{ubl|Vector Projects India Pvt. Ltd.|Umesh Rao|Siya Manjrekar Productions}}
+| screenplay     = {{ubl|Saurabh Bhave}}
+| story          = Vinayak Prabhu
+| starring       = {{ubl|Vaibbhav Tatwawdi|Mrunal Thakur|Sharad Ponkshe|Madhav Abhyankar|Dr. Sriram Patki|Vinayak Bhave}}
+| music          = Pankaj Padgham
+| cinematography = Vikramkumar Amladi
+| distributor    = {{ubl|Prabhat Enterprises}}
+| released       = {{Film date|df=y|2014|04|18}}
+| runtime        = 1 hr 54 Min&lt;ref&gt;{{cite web|title=Surajya... a Movement|url=http://www.surajyathemovie.com|accessdate=25 April 2014}}&lt;/ref&gt; 
+| country        = India
+| language       = [[Marathi language|Marathi]]
+}}
+
+'''''Surajya''''' is a 2014  Indian [[Marathi language|Marathi]] language movie. 
+The movie marks the debut of Vaibbhav Tatwawdi and is directed by award-winning Director of Mi Shivaji Raje Bhosale Boltoi fame Santosh Manjrekar. Music and Background score is given by Pankaj Padgham and Cinematography is by Vikramkumar Amladi.
+Vector Projects mark their entry into the Movie Industry with this movie.
+
+''[[Times of India]]'' praised the performances of the actors and commented that the film is &quot;definitely a one-time watch&quot;.&lt;ref&gt;{{cite news|title=Surajya (Review)|url=http://timesofindia.indiatimes.com/movie-review/33914489.cms|accessdate=25 April 2014|newspaper=The Times of India}}&lt;/ref&gt;
+
+==Plot==
+
+When a young interior designer goes to his native place, the absence of a hospital there shocks him. He them embarks on a quest to get basic medical facilities to his village.
+
+The residents of Mashem in [[Goa]] are god-fearing people who are afraid to go against the word of a Godman in the village. Such is the fear in them that they fail to speak up even when they witness money being collected in the name of God and being stacked in the hermitage locker.
+
+Having been posted in [[Goa]], Omkar (Vaibbhav Tatwawdi) decides to spend a week with his parents at his village. His father Ramdas ( Sharad Ponkshe) who is the local priest, asks Omkar to go around and collect money from the residents for the renovation of the [[hermitage (religious retreat)|hermitage]]. While doing this, Omkar comes across an old lady lying on her deathbed who cannot afford treatment because the nearest hospital is an hour away. By the time Omkar and his friend Bandya (Shriram Patki) get her to the hospital, she dies, and this jolts Omkar. He, along with his love interest Dr Swapna Bhosale ( Mrunal Thakur) and Bandya tries to get funds from the hermitage for constructing a hospital but to no effect. That is when they take an oath to fight for the welfare of the people, by hook or by crook.
+
+==Cast==
+* [[Vaibbhav Tatwawdi]] as Omkar Prabhu
+* [[Mrunal Thakur]] as Dr. Swapna Bhosale
+* Dr. Sriram Patki as Bandya
+* Sharad Ponkshe as Ramdas Prabhu
+* Madhav Abhyankar as Swamy Sudarshan Maharaj
+* Pournima Manohar as Omkar's Mother
+* Vinayak Bhave as Manohar Swamy&lt;ref&gt;{{cite web|title=Surajya Marathi Movie |url=https://www.youtube.com/watch?v=jOQNb_oJOUc|accessdate=25 April 2014}}&lt;/ref&gt;
+
+==Soundtrack==
+{| class=&quot;wikitable&quot;
+|-
+! No. !! Title !! Singer(s) !! Music
+|-
+| 1 || Ha Nava Bahana||Rohit Raut  || Pankaj Padgham
+|-
+| 2 || Mor Pisa ||Sayali Pankaj &amp; Mangesh Borgaonkar || Pankaj Padgham
+|-
+| 3 || Surajya Yet Aahe ||Various || Pankaj Padgham
+|}
+
+==References==
+{{Portal|Maharashtra|Film}}
+{{reflist}}
+
+==External links==
+* [http://virginiagolfclub.com.au/ Official Website].
+* [http://www.golfqueensland.org.au/ Golf Queensland]
+* [http://www.golfqueensland.org.au/clubs-1/virginia-golf-club Virginia Golf Club]
+
+</text>
+      <sha1>8qo6tpbd8b9ssob5ap9gpbf1ej0fi36</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Western Oriente Basin</title>
+    <ns>0</ns>
+    <id>42579203</id>
+    <redirect title="Oriente (Ecuador)" />
+    <revision>
+      <id>605708070</id>
+      <timestamp>2014-04-25T05:32:59Z</timestamp>
+      <contributor>
+        <username>Beagel</username>
+        <id>2057630</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Oriente (Ecuador)]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">#REDIRECT [[Oriente (Ecuador)]]</text>
+      <sha1>hyio5f6ox3k97c1g766c9hmqfhftvv0</sha1>
+    </revision>
+  </page>
+   <page>
+    <title>Before the Winter Chill</title>
+    <ns>0</ns>
+    <id>42579205</id>
+    <revision>
+      <id>908632330</id>
+      <parentid>857510962</parentid>
+      <timestamp>2019-07-30T23:39:51Z</timestamp>
+      <contributor>
+        <username>Fliponium</username>
+        <id>34286563</id>
+      </contributor>
+      <minor />
+      <comment>/* Synopsis */ added a few details</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">{{refimprove|date=September 2018}}
+
+{{Infobox film
+| name     = Before the Winter Chill
+| image    =
+| director = [[Philippe Claudel]]
+| producer = 
+| Script = 
+| starring = [[Daniel Auteuil]] &lt;br&gt; [[Kristin Scott Thomas]] &lt;br&gt; [[Leïla Bekhti]] &lt;br&gt; [[Richard Berry (actor)|Richard Berry]]
+| cinematography = 
+| music = 
+| country = France
+| language = French
+| runtime = 103 minutes
+| released = {{Film date|2013|8|30|[[Telluride Film Festival|TFF]]|df=yes}}
+| budget = $8 million
+| gross = $2.6 million&lt;ref&gt;http://www.jpbox-office.com/fichfilm.php?id=13792&lt;/ref&gt;
+}}
+'''Before the Winter Chill''' ({{lang-fr|Avant l'hiver}}) is a 2013 French drama film directed by [[Philippe Claudel]].
+
+==Synopsis==
+Philippe Claudel and Kristin Scott Thomas reunite in this subtle story of a man thrust into a mid-life crisis by a chance meeting. He is torn between a loving wife and his dangerous attraction for a troubled, mysterious young woman.
+Paul has never questioned his choices. Married right out of med school to the stunning Lucie, who set aside her own career to accommodate his brilliant one as a brain surgeon, he has been faithful, has earned the respect of his peers, raised a son and built a lovely home. Life is good.
+But now, at this point in his life, something might threaten all that. It starts after his meeting with young and mysterious Lou who keeps turning up in his life.
+When roses are delivered daily at his office and home, Paul presumes Lou is stalking him, yet he can't resist the lure of an ambiguous and dangerous relationship with her. 
+Fascinated by her emotional frailty, her mystery and grace, Paul fails to see that he might be the target of a sinister plot, something dark and twisted that could threaten everything he's built and everyone he loves. In the end he discovers that everything she has told him about herself is a lie and we are left with the picture of a man struggling to return to the quiet and boring life he lived before he met Lou.
+
+The film received a 71% fresh rating on Rotten Tomatoes based on 17 reviews with an average rating of 5.7/10.&lt;ref&gt;{{Citation|title=Before the Winter Chill|url=https://www.rottentomatoes.com/m/before_the_winter_chill|language=en|accessdate=2018-05-31}}&lt;/ref&gt;
+
+== Cast ==
+[[File:Avp avant l'hiver 2013.jpg|thumb|Avant l'hiver premiere in Paris]]
+* [[Daniel Auteuil]] as Paul
+* [[Kristin Scott Thomas]] as Lucie
+* [[Leïla Bekhti]] as Lou
+* [[Richard Berry (actor)|Richard Berry]] as Gérard
+* [[Laure Killing]] as Mathilde
+* [[Jérôme Varanfrain]] as Victor
+* [[Vicky Krieps]] as Caroline
+* [[Anne Metzler]] as Zoé Gassard
+* [[Annette Schlechter]] as Madame Malek
+* [[Laurent Claret]] as Denis
+* [[Jean-Louis Sbille]] as Fred
+* [[Lucie Debay]] as Lou's friend
+
+==References==
+{{reflist}}
+
+== External links ==
+{{Commons category|Avant l'hiver}}
+* {{IMDb title|2231630}}
+*{{rotten-tomatoes|before_the_winter_chill}}
+
+{{DEFAULTSORT:Before the Winter Chill}}
+[[Category:2013 films]]
+[[Category:2010s drama films]]
+[[Category:French drama films]]
+[[Category:French-language films]]
+[[Category:French films]]
+
+
+{{2010s-France-film-stub}}</text>
+      <sha1>82vqyim3062zcufoc8tskcrhv1yy6al</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Avant l'hiver</title>
+    <ns>0</ns>
+    <id>42579206</id>
+    <redirect title="Before the Winter Chill" />
+    <revision>
+      <id>605708245</id>
+      <timestamp>2014-04-25T05:35:31Z</timestamp>
+      <contributor>
+        <username>Kanghuitari</username>
+        <id>16733028</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Before the Winter Chill]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve">#redirect [[Before the Winter Chill]]</text>
+      <sha1>9lyxwss5s1xxiw379aewnhb2iewu1a9</sha1>
+    </revision>
+  </page>
+</mediawiki>
