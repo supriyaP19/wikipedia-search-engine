@@ -39,7 +39,6 @@ try:
     f = open(current_directory_path+"/index/"+index_filename,"r")
     line = f.readline()
     while line:
-
         temp = line.split("-")
         term = temp[0]
         # print(term)
@@ -60,21 +59,93 @@ def tokenize(tmp_str):
     # print(" str to tokenize : ",tmp_str)
     tmp_str = re.sub(r'[^\x00-\x7F]+',' ', tmp_str)
     tokens = tmp_str.split()
-    # print(" tokens : ",tokens)
+    print(" tokens : ",tokens)
     # remove all tokens that are not alphanumeric
     ps = PorterStemmer()
 
     for word in tokens:
-        # print(" 1 ")
+        print(" 1 ")
         if word not in stop_words and word.isalpha():
-            # print(" 2 ")
+            print(" 2 ")
             temp_word = ps.stem(word)
             if len(temp_word) < 3:
                 continue
             words.append(temp_word)
     # make is word.isalnum(), if number is necessary to be handled
-    # print("words : ",words)
+    print("words : ",words)
     return words
+
+def print_result(set_intersection_result):
+    print(" Result size ",len(set_intersection_result))
+    print("=======================================================")
+    for doc_id in set_intersection_result:
+        print(id_title_map[doc_id])
+    print("=======================================================")
+
+def queryField(words_in_query):
+    print(" inside field query processing")
+    categories = words_in_query.split()
+    print(" query : ",categories)
+    temp_cat_docid = {}
+
+    #       Creating term-cat dictionary as follows :
+    #  for eg the query is -  t:gandhi b:arjun i:gandhi c:gandhi r:gandhi
+    #  we need to create -> { gandhi : [t,i,c,r], arjun : [b] }
+    temp_term_cat = {}
+    for x in categories:
+        category_term = x.split(":") 
+        print(" catagory term : ",category_term)
+        category = category_term[0][0] # took the first letter of the full name of the category following the rule already used to create the index
+        print(" category short form : ", category)
+        term = category_term[1]
+        print(" term came to be : ",term)
+        tokenized_term = tokenize(term)
+        print(" after tokenization : ",tokenized_term[0])
+        print("3")
+        if tokenized_term[0] in inverted_index:
+            print("4")
+            if tokenized_term[0] not in temp_term_cat:
+                print("5")
+                temp_term_cat[tokenized_term[0]] = []
+            temp_term_cat[tokenized_term[0]].append(category)
+            print(temp_term_cat)
+
+    #       Creating dic of sets
+    #   for the above query and from the created dictionary temp_term_cat -> t:gandhi b:arjun i:gandhi c:gandhi r:gandhi
+    #   we need to create -> {t:(d1), i:(d1,d2), c:(d2), r:(d2), b:(d2)}, if the index was { gandhi-d1:t4#i5, d2:c3#r3    arjun-d2:b7#c5}
+    for term in temp_term_cat:
+        posting_list_string = inverted_index[term]
+        doc_catfreq_list = posting_list_string.split(",")
+        for catfreq in doc_catfreq_list:
+            temp = catfreq.split(":")
+            doc_id = temp[0]
+            print(" doc_id : ",doc_id)
+            cats = temp[1].split("#")
+            print(" cats : ",cats)
+            for cat in cats:
+                cat_name = cat[0]
+                if cat_name in temp_term_cat[term]:
+                    if cat_name not in temp_cat_docid: 
+                        temp_cat_docid[cat_name] = set()
+                    temp_cat_docid[cat_name].add(doc_id)
+    
+    #   Get the Intersection of all the sets
+    set_intersection_result = set()
+    i = 0
+    for key in temp_cat_docid:
+        if i==0:
+            set_intersection_result = temp_cat_docid[key]
+        else:
+            t = set_intersection_result.intersection(temp_cat_docid[key])
+            if len(t) == 0:
+                set_intersection_result = set_intersection_result.union(temp_cat_docid[key])
+            else:
+                set_intersection_result = t
+        i+=1
+        
+    # Printing the titles in result
+    print_result(set_intersection_result)
+                
 
 def queryNormal(words_in_query):
     print(" inside normal query processing")
@@ -115,10 +186,9 @@ def queryNormal(words_in_query):
                 final_set_of_docid = final_set_of_docid.intersection(set_of_docid)
             # print(final_set_of_docid)
             i += 1
-    print("  Result ============================================"+str(len(final_set_of_docid)))
-    for doc_id in final_set_of_docid:
-        # print(" id : ",doc_id)
-        print(id_title_map[doc_id])
+
+    # Printing Titles in result
+    print_result(final_set_of_docid)
                 
 
 
@@ -132,19 +202,11 @@ while True:
         queryType = "Field"
     else:
         queryType = "Normal"
-    # queryWords = query.split()
+
     if queryType == "Normal":
-        try:
-            print(" right ")
-            queryNormal(query)
-            stop = time.time()
-            print("Query Took ",stop-start," seconds.")
-        except:
-            print("Some Error Occurred! Try Again")
+        queryNormal(query)
+        
     else:
-        try:
-            queryField(queryWords)
-            stop = timeit.default_timer()
-            print("Query Took ",stop-start," seconds.")
-        except:
-            print("Some Error Occurred! Try Again")
+        queryField(query)
+    stop = time.time()
+    print(queryType+" Query Took ",stop-start," seconds.")
