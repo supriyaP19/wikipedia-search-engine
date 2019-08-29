@@ -16,6 +16,7 @@ regex_category = r"\[\[category:(.*?)\]\]"
 regex_link = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 stop_words = set(stopwords.words('english')) 
 stem_dictionary = {}
+arguments = sys.argv[1:]
 
 # alpha = 'a'
 # cap_alpha = 'A'
@@ -311,11 +312,16 @@ parser = sx.make_parser()
 parser.setFeature(sx.handler.feature_namespaces, 0)
 handler = WikiXmlHandler()
 parser.setContentHandler(handler)
-current_directory_path = os.getcwd()
-data_file_path = current_directory_path + "/data/"+xml_filename
+# current_directory_path = os.getcwd()
+data_file_path = arguments[0]
 parser.parse(data_file_path)
-index_file_path = current_directory_path + "/index/"+index_filename
-idtitle_file_path = current_directory_path + "/index/"+id_title_filename
+
+if arguments[1][-1] != "/":
+    folder_path = arguments[1] + "/"
+else:
+    folder_path = arguments[1]
+index_file_path = folder_path + index_filename
+idtitle_file_path = folder_path +id_title_filename
 
 # Creating the Index and storing to the file
 gc.disable()
@@ -343,4 +349,3 @@ end1 = time.time()
 gc.enable()
 
 print(" PREPROCESSING + INDEX CREATION TIME : ",end1 - start1)
-print(" INVERTED INDEX SIZE : ",sys.getsizeof(handler._inverted_index))

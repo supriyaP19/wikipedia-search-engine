@@ -13,9 +13,15 @@ index_filename = "inverted_index.txt"
 id_title_filename = "id_title_mapping.txt"
 current_directory_path = os.getcwd()
 stop_words = set(stopwords.words('english')) 
+arguments = sys.argv[1:]
 
 id_title_map = {}
 inverted_index = {}
+path_to_index_folder = arguments[0]
+path_to_input_query_file = arguments[1]
+path_to_output_file = arguments[2]
+
+
 # Fetching the id-title dictionary
 try : 
     
@@ -112,7 +118,9 @@ def queryField(words_in_query):
 
     #       Creating dic of sets
     #   for the above query and from the created dictionary temp_term_cat -> t:gandhi b:arjun i:gandhi c:gandhi r:gandhi
-    #   we need to create -> {t:(d1), i:(d1,d2), c:(d2), r:(d2), b:(d2)}, if the index was { gandhi-d1:t4#i5, d2:c3#r3    arjun-d2:b7#c5}
+    #   we need to create -> {t:{d1:4}, i:{d1:5,d2:4}, c:{d2:3}, r:{d2:3}, b:{d2:7}}, if the index was { gandhi-d1:t4#i5, d2:c3#r3    arjun-d2:b7#c5}
+    
+    result_dic = {}
     for term in temp_term_cat:
         posting_list_string = inverted_index[term]
         doc_catfreq_list = posting_list_string.split(",")
@@ -120,32 +128,37 @@ def queryField(words_in_query):
             temp = catfreq.split(":")
             doc_id = temp[0]
             print(" doc_id : ",doc_id)
-            cats = temp[1].split("#")
+            cat_list = temp[1]
+            if '\n' in cat_list:
+                cat_list = cat_list[:-1]
+            cats = cat_list.split("#")
             print(" cats : ",cats)
             for cat in cats:
                 cat_name = cat[0]
+              
+                freq = int(cat[1:])
                 if cat_name in temp_term_cat[term]:
                     if cat_name not in temp_cat_docid: 
-                        temp_cat_docid[cat_name] = set()
-                    temp_cat_docid[cat_name].add(doc_id)
+                        temp_cat_docid[cat_name] = {}
+                    temp_cat_docid[cat_name][doc_id] = freq
+                    if doc_id not in result_dic:
+                        result_dic[doc_id] = 0
+                    result_dic[doc_id] += freq
+
     
-    #   Get the Intersection of all the sets
-    set_intersection_result = set()
+    # print(result_dic)
+    result_dic = sorted(result_dic.items(), reverse=True, key = lambda x : x[1]) # Sort the docs in the order of their frequency
+    print(result_dic)
+    print("--------------------- Top 10 results")
     i = 0
-    for key in temp_cat_docid:
-        if i==0:
-            set_intersection_result = temp_cat_docid[key]
-        else:
-            t = set_intersection_result.intersection(temp_cat_docid[key])
-            if len(t) == 0:
-                set_intersection_result = set_intersection_result.union(temp_cat_docid[key])
-            else:
-                set_intersection_result = t
-        i+=1
-        
-    # Printing the titles in result
-    print_result(set_intersection_result)
-                
+    f2 = open(path_to_output_file,"w")
+    for key in result_dic:
+        if i >= 10:
+            break
+        print(id_title_map[key[0]])
+        f2.write(id_title_map[key[0]]+"\n")
+        i += 1
+    f2.close()
 
 def queryNormal(words_in_query):
     print(" inside normal query processing")
@@ -159,43 +172,48 @@ def queryNormal(words_in_query):
         if word in inverted_index:
             # Parse the posting list string
             id_freq_mapping = inverted_index[word].split(",")
-            set_of_docid = set()
+            dic_of_docid_freq = {}
             for items in id_freq_mapping:
                 # weighted_freq = 0
                 temp = items.split(":")
                 doc_id = temp[0]
                 fields = temp[1]
-                
-                set_of_docid.add(doc_id)
-                # print(set_of_docid)
-                
-                # to be checked for page ranking
-                # for field in fields:
-                #     field_type = field[0]
-                #     term_freq = field[1:]
-                #     if field_type == 't':
-                #         weighted_freq += int(term_freq)*1000
-                #     if field_type == 'c' or field_type == 'l' or field_type == 'i' or field_type == 'r':
-                #         weighted_freq += int(term_freq)*50
-                #     if field_type == 'b':
-                #         weighted_freq += int(term_freq)
-                # word_doc_freq[word][doc_id] = weighted_freq
-            if i == 0:
-                final_set_of_docid = set_of_docid
-            if i>0:
-                final_set_of_docid = final_set_of_docid.intersection(set_of_docid)
-            # print(final_set_of_docid)
-            i += 1
+                if '\n' in fields:
+                    fields = fields[:-1]
+                field = fields.split("#")
+                print(" all fields : ",field)
+                freq = 0
+                for f in field:
+                    freq += int(f[1:])
+
+                dic_of_docid_freq[doc_id] = freq
+
+    dic_of_docid_freq = sorted(dic_of_docid_freq.items(), reverse=True, key = lambda x : x[1]) # Sort the docs in the order of their frequency
+    print(dic_of_docid_freq)
+    print("--------------------- Top 10 results")
+    i = 0
+    f2 = open(path_to_output_file,"w")
+    for key in dic_of_docid_freq:
+        if i >= 10:
+            break
+        print(id_title_map[key[0]])
+        f2.write(id_title_map[key[0]]+"\n")
+        i += 1
+    f2.close()
+
+        
 
     # Printing Titles in result
-    print_result(final_set_of_docid)
+    # print_result(final_set_of_docid)
                 
 
-
-
-while True:
-    print(" inside while true ---")
-    query = input("Enter your query: ")
+print(" query file to open :",path_to_input_query_file)
+f = open(path_to_input_query_file)
+line = f.readline()
+while line:
+    print(" inside while line ---")
+    print(line)
+    query = line
     start = time.time()
     queryType = ""
     if ":" in query:
@@ -210,3 +228,5 @@ while True:
         queryField(query)
     stop = time.time()
     print(queryType+" Query Took ",stop-start," seconds.")
+    line = f.readline()
+f.close()
