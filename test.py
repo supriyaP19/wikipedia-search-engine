@@ -15,6 +15,7 @@ id_title_filename = 'id_title_mapping.txt'
 regex_category = r"\[\[category:(.*?)\]\]"
 regex_link = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 stop_words = set(stopwords.words('english')) 
+stem_dictionary = {}
 
 # alpha = 'a'
 # cap_alpha = 'A'
@@ -47,7 +48,7 @@ class WikiXmlHandler(sx.handler.ContentHandler):
 
     def characters(self, content):
         if self._current_tag:
-            self._buffer.append(content.casefold())
+            self._buffer.append(content)
 
     def startElement(self, name, attrs):
         if name == 'title' :
@@ -66,12 +67,15 @@ class WikiXmlHandler(sx.handler.ContentHandler):
             self._values[name] = ' '.join(self._buffer)
 
         elif name == 'text':
-            self._values[name] = ' '.join(self._buffer)
+             text_content = ' '.join(self._buffer)
+             self._values[name] = text_content.casefold()
 
         elif name == 'id' and self._id_flag == True:
             self._values[name] = ' '.join(self._buffer)
             self._id_title_map[self._values['id']] = self._values['title']
+            self._values['title'] = self._values['title'].casefold() 
             self._title_id_map[self._values['title']] = self._values['id']
+
             self._id_flag = False
 
         elif name == 'page':
@@ -88,9 +92,12 @@ class WikiXmlHandler(sx.handler.ContentHandler):
         ps = PorterStemmer()
 
         for word in tokens:
-            if word.isalpha() and word not in stop_words:
-                temp_word = ps.stem(word)
-                # print(temp_word)
+            if word.isalnum() and word not in stop_words:
+                if word in stem_dictionary:
+                    temp_word = stem_dictionary[word] 
+                else:
+                    temp_word = ps.stem(word) 
+                    stem_dictionary[word] = temp_word
                 
                 if len(temp_word) < 3:
                     continue
@@ -144,7 +151,14 @@ class WikiXmlHandler(sx.handler.ContentHandler):
                     text = text.replace(match.group(0),'')
                     if '|' in category:
                         category_name = category.split('|')
+                        # considering the data after pipe in category as the bobdy text data only :
+                        temp_txt = category_name[1:]
+                        # print(" gadhi wala temp text : ",temp_txt)
+                        for j in temp_txt:
+                            text += " "+ j
+
                         category_name = category_name[0]
+                        
                     else:
                         category_name = category
                     cat = handler.tokenize(category_name, document_id, 'c')    # 'c' is for category
