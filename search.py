@@ -25,7 +25,7 @@ path_to_output_file = arguments[2]
 # Fetching the id-title dictionary
 try : 
     
-    f = open(current_directory_path+"/index/"+id_title_filename,"r")
+    f = open(path_to_index_folder+"/"+id_title_filename,"r")
     print(" making id title map ")
     line = f.readline()
     while line:
@@ -42,7 +42,7 @@ except:
 
 try:
     print(" creating index----")
-    f = open(current_directory_path+"/index/"+index_filename,"r")
+    f = open(path_to_index_folder+"/"+index_filename,"r")
     line = f.readline()
     while line:
         temp = line.split("-")
@@ -151,28 +151,27 @@ def queryField(words_in_query):
     print(result_dic)
     print("--------------------- Top 10 results")
     i = 0
-    f2 = open(path_to_output_file,"w")
+    
     for key in result_dic:
         if i >= 10:
             break
         print(id_title_map[key[0]])
-        f2.write(id_title_map[key[0]]+"\n")
+        f2.write(id_title_map[key[0]])
         i += 1
-    f2.close()
+    f2.write("\n")
 
 def queryNormal(words_in_query):
-    print(" inside normal query processing")
+    # print(" inside normal query processing")
     tokenized_words = tokenize(words_in_query)
     # print(" tokenized query : ",tokenized_words)
     word_doc_freq = {}
-    final_set_of_docid = set()
     i = 0
+    dic_of_docid_freq = {}
     for word in tokenized_words:
         word_doc_freq[word] = {}
         if word in inverted_index:
             # Parse the posting list string
             id_freq_mapping = inverted_index[word].split(",")
-            dic_of_docid_freq = {}
             for items in id_freq_mapping:
                 # weighted_freq = 0
                 temp = items.split(":")
@@ -181,25 +180,22 @@ def queryNormal(words_in_query):
                 if '\n' in fields:
                     fields = fields[:-1]
                 field = fields.split("#")
-                print(" all fields : ",field)
                 freq = 0
                 for f in field:
                     freq += int(f[1:])
-
                 dic_of_docid_freq[doc_id] = freq
-
+    print(dic_of_docid_freq)
     dic_of_docid_freq = sorted(dic_of_docid_freq.items(), reverse=True, key = lambda x : x[1]) # Sort the docs in the order of their frequency
     print(dic_of_docid_freq)
     print("--------------------- Top 10 results")
     i = 0
-    f2 = open(path_to_output_file,"w")
     for key in dic_of_docid_freq:
         if i >= 10:
             break
         print(id_title_map[key[0]])
-        f2.write(id_title_map[key[0]]+"\n")
+        f2.write(id_title_map[key[0]])
         i += 1
-    f2.close()
+    f2.write("\n")
 
         
 
@@ -209,10 +205,11 @@ def queryNormal(words_in_query):
 
 print(" query file to open :",path_to_input_query_file)
 f = open(path_to_input_query_file)
+f2 = open(path_to_output_file,"w+")
 line = f.readline()
 while line:
     print(" inside while line ---")
-    print(line)
+    print("LINE : ",line)
     query = line
     start = time.time()
     queryType = ""
@@ -229,4 +226,5 @@ while line:
     stop = time.time()
     print(queryType+" Query Took ",stop-start," seconds.")
     line = f.readline()
+f2.close()
 f.close()
