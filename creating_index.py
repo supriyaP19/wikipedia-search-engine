@@ -1,3 +1,5 @@
+#python3 creating_index.py /home/supriya19/Desktop/sem3/IRE/phase_2/trial_data/test_data.xml /home/supriya19/Desktop/sem3/IRE/phase_2
+
 import xml.sax as sx
 import nltk
 from nltk.tokenize import word_tokenize
@@ -8,6 +10,7 @@ import os
 import sys
 import time
 import gc
+import heapq
 xml_filename = 'enwiki-latest-pages-articles26.xml-p42567204p42663461'
 xml_filename1 = 'test_data.xml'
 index_filename = 'inverted_index.txt'
@@ -17,6 +20,10 @@ regex_link = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0
 stop_words = set(stopwords.words('english')) 
 stem_dictionary = {}
 arguments = sys.argv[1:]
+mod = 10000
+global_page_count = 0 
+total_time_taken = 0
+chunk_no = 0
 
 # alpha = 'a'
 # cap_alpha = 'A'
@@ -37,13 +44,9 @@ class WikiXmlHandler(sx.handler.ContentHandler):
         self._pages = []
         self._id_title_map = {}
         self._title_id_map = {}
-        self._title_to_terms = {}
         self._id_buffer = ''
         self._id_flag = False
-        self._field_query = {}
-        self._preprocessed_text = {}
         self._inverted_index = {}
-        self._whole_text = []
         self._title_inverted_index = {}
 
 
@@ -62,6 +65,9 @@ class WikiXmlHandler(sx.handler.ContentHandler):
             self._buffer = []
 
     def endElement(self, name):
+        global global_page_count 
+        global chunk_no
+        global stem_dictionary
         # if name == self._current_tag and name != 'id':
         
         if name == 'title':
@@ -73,6 +79,8 @@ class WikiXmlHandler(sx.handler.ContentHandler):
 
         elif name == 'id' and self._id_flag == True:
             self._values[name] = ' '.join(self._buffer)
+            global_page_count += 1
+
             self._id_title_map[self._values['id']] = self._values['title']
             self._values['title'] = self._values['title'].casefold() 
             self._title_id_map[self._values['title']] = self._values['id']
@@ -81,8 +89,56 @@ class WikiXmlHandler(sx.handler.ContentHandler):
 
         elif name == 'page':
             self._pages.append((self._values['title'], self._values['text']))
+            # print(" the count of PAGE is : ",global_page_count)
+            mod_val = global_page_count % mod
+            if mod_val == 0:
+                chunk_no += 1
+                # print(" the count of CHUNK is : ",chunk_no)
+                self.create_index_in_chunks()
+                # Reset all the dictionaries for the next chunk
+                
+                self._pages = []
+                self._inverted_index = {}
+                self._title_inverted_index = {}
+                self._id_title_map = {}
+                self._title_id_map = {}
+                stem_dictionary = {} # emptying the dictionary after one file otherwise the size exceeds the limit giving error "RecursionError: maximum recursion depth exceeded in comparison"
+
+
+    def create_index_in_chunks(self):
+
+        global total_time_taken
+        if arguments[1][-1] != "/":
+            folder_path = arguments[1] + "/chunk_files/"
+        else:
+            folder_path = arguments[1] + "chunk_files/"
+
+        gc.disable()
+        start1 = time.time()
+        self.data_preprocessing()
+        f = open(folder_path + "i_" + str(chunk_no),"w")
+        f2 = open(folder_path + "idtitle_file_" + str(chunk_no),"w")
+        for key,val in sorted(self._inverted_index.items()):
+            # s =str(key.encode('utf-8'))+"="
+            key += "-"
+            for k,v in sorted(val.items()):
+                key += str(k) + ":"
+                for k1,v1 in v.items():
+                    key = key + str(k1) + str(v1) + "#"
+                key = key[:-1]+","
+            key = key[:-1]+"\n"
+            f.write(key)
+        for key,value in self._id_title_map.items():
+            f2.write(key+"->"+value+"\n")
+        f.close()
+        f2.close()
+        end1 = time.time()
+        gc.enable()
+        total_time_taken += end1-start1
+        # print(" The time taken at chunk "+ str(chunk_no) +" is : ",total_time_taken)
 
     def tokenize(self, tmp_str, document_id, key_name):
+        global stem_dictionary
         words = []
         tmp_str = re.sub(r'[^\x00-\x7F]+',' ', tmp_str)
         # nltk.download('punkt')
@@ -293,8 +349,6 @@ class WikiXmlHandler(sx.handler.ContentHandler):
             i +=1 
         # print(" temp ",temp_string)
         return temp_string
-
-    
     
         # def fetch_docs():
     #     pass
@@ -315,37 +369,195 @@ parser.setContentHandler(handler)
 # current_directory_path = os.getcwd()
 data_file_path = arguments[0]
 parser.parse(data_file_path)
+if len(handler._pages) > 0:
+    chunk_no += 1
+    handler.create_index_in_chunks()
+
+
+"""
+================================================================================================================================
+MERGING THE INDEX FILE CHUNKS TO FORM THE FINAL INDEX FILES WITH TERMS SORTED LEXICOGRAPHICALLY ON WHICH SEARCH CAN BE PERFORMED
+================================================================================================================================
+"""
+
+start2 = time.time()
 
 if arguments[1][-1] != "/":
-    folder_path = arguments[1] + "/"
+    folder_path = arguments[1] + "/chunk_files/"
 else:
-    folder_path = arguments[1]
-index_file_path = folder_path + index_filename
-idtitle_file_path = folder_path +id_title_filename
+    folder_path = arguments[1] + "chunk_files/"
 
-# Creating the Index and storing to the file
-gc.disable()
-start1 = time.time()
-handler.data_preprocessing()
-# print(handler._inverted_index)
-f = open(index_file_path,"w")
-f2 = open(idtitle_file_path,"w")
-for key,val in sorted(handler._inverted_index.items()):
-    # s =str(key.encode('utf-8'))+"="
-    key += "-"
-    for k,v in sorted(val.items()):
-        key += str(k) + ":"
-        for k1,v1 in v.items():
-            key = key + str(k1) + str(v1) + "#"
-        key = key[:-1]+","
-    key = key[:-1]+"\n"
-    f.write(key)
-for key,value in handler._id_title_map.items():
-    f2.write(key+"->"+value+"\n")
 
-f.close()
-f2.close()
-end1 = time.time()
-gc.enable()
+# f1 = open(folder_path+"i_1", 'r+')
+# f2 = open(folder_path+"i_2", 'r+')
+# f3 = open(folder_path+"i_3", 'r+')
+# f4 = open(folder_path+"i_4", 'r+')
 
-print(" PREPROCESSING + INDEX CREATION TIME : ",end1 - start1)
+file_desc_list = []
+# opening the chunk files
+for i in range(1,chunk_no+1):
+    temp_file = open(folder_path + "i_" + str(i), 'r+')
+    file_desc_list.append(temp_file)
+    print(file_desc_list)
+
+
+secondary_index =  open(folder_path+"secondary_index", 'w+') # This inex contains range-wise mapping of filename 
+list_of_first_terms = [] # list to be converted to the min heap
+term_to_file = {} # map that contains mapping of the term with the file it's present in 
+term_posting_temp = {}
+
+# Reading first line from all the files for creating the heap from scratch
+heap = []
+
+
+for file in file_desc_list:
+    temp = file.readline()[:-1].split("-")
+    if temp[0] in term_posting_temp:
+        x = term_posting_temp[temp[0]]
+        term_posting_temp[temp[0]] =  x + "," + temp[1]
+    else:
+        term_to_file[temp[0]] = file # Storing in map, which file this term belongs to
+        term_posting_temp[temp[0]] = temp[1]
+        heapq.heappush(heap,temp[0])
+
+
+
+# temp = f1.readline()[:-1].split("-")
+# # print(" 1st line read of f1 : ",temp)
+# term_to_file[temp[0]] = f1 # Storing in map, which file this term belongs to 
+# term_posting_temp[temp[0]] = temp[1]
+# heap.append(temp[0])
+# heapq.heapify(heap)
+
+
+
+# temp = f2.readline()[:-1].split("-")
+# # print(" 1st line read of f2 : ",temp)
+# if temp[0] in term_posting_temp:
+#     x = term_posting_temp[temp[0]]
+#     term_posting_temp[temp[0]] =  x + "," + temp[1]
+# else:
+#     term_to_file[temp[0]] = f2 # Storing in map, which file this term belongs to
+#     term_posting_temp[temp[0]] = temp[1]
+#     heapq.heappush(heap,temp[0])
+
+
+
+# temp = f3.readline()[:-1].split("-")
+# # print(" 1st line read of f3 : ",temp)
+# if temp[0] in term_posting_temp:
+#     x = term_posting_temp[temp[0]]
+#     term_posting_temp[temp[0]] =  x + "," + temp[1]
+# else:
+#     term_to_file[temp[0]] = f3 # Storing in map, which file this term belongs to
+#     term_posting_temp[temp[0]] = temp[1]
+#     heapq.heappush(heap,temp[0])
+
+
+
+# temp = f4.readline()[:-1].split("-")
+# print(" 1st line read of f4 : ",temp)
+# if temp[0] in term_posting_temp:
+#     x = term_posting_temp[temp[0]]
+#     term_posting_temp[temp[0]] =  x + "," + temp[1]
+# else:
+#     term_to_file[temp[0]] = f4 # Storing in map, which file this term belongs to
+#     term_posting_temp[temp[0]] = temp[1]
+#     heapq.heappush(heap,temp[0])
+
+pointer_position = 0
+position_mod = 10000
+file_id = 0
+fin =  open(folder_path+"index_file_"+ str(file_id), 'w+') # this file stores all terms starting with numbers 
+
+# print("---------------")
+# print(heap)
+# print("======================================================")
+
+while len(heap) > 0:
+    m = pointer_position % position_mod
+    top = heapq.heappop(heap)
+
+    # to decide which file next to be read
+    file_desc = term_to_file[top]
+    file_entry = top + "-" + term_posting_temp[top] + "\n"
+    # print(" TOP POPPED :",top)
+    # print(" FILE ENTRY : ",file_entry)
+
+    if m == 0: # File pointer at the first line of some index file
+        range = top +"-"   # starting with lower limit of the range eg: if the entry has to be aaaa-bbbd : index_file_0, then we r toing '<top> -' here
+        fin.write(file_entry)
+        pointer_position = (pointer_position + 1) # Incrementing the pointer in the final index file 
+        file_id += 1
+    
+    elif m == position_mod-1:
+        range += top + ":" + fin.name +"\n" # making it of the form -    aaaa-bbbd:index_file_0
+        # print(" range : ",range)
+        secondary_index.write(range)
+        fin.write(file_entry)
+        fin.close()
+        fin = open(folder_path+"index_file_"+ str(file_id), 'w+') # this file stores all terms starting with numbers 
+        pointer_position = 0
+        file_id += 1
+
+    else:
+        fin.write(file_entry)   
+        pointer_position = (pointer_position + 1) # Incrementing the pointer in the final index file 
+        file_id += 1
+    
+    del term_to_file[top] # Deleting the key-value for the term that is already added to the final index file
+    # print(" pointer position ",pointer_position)
+
+    line = file_desc.readline()
+    if not line: # When the content of this file is over, just go and pop another min from the heap and check for it's next element
+        continue
+    temp = line[:-1].split("-")
+    if temp[0] in term_posting_temp:
+        x = term_posting_temp[temp[0]]
+        term_posting_temp[temp[0]] =  x + "," + temp[1]
+        flag = True
+        while flag:
+            line = file_desc.readline()
+            temp = line[:-1].split("-")
+            if temp[0] not in term_posting_temp: 
+                flag = False
+                term_to_file[temp[0]] = file_desc # Storing in map, which file this term belongs to
+                term_posting_temp[temp[0]] = temp[1]
+                heapq.heappush(heap,temp[0])
+            else:
+                x = term_posting_temp[temp[0]]
+                term_posting_temp[temp[0]] =  x + "," + temp[1]
+    else:
+        term_to_file[temp[0]] = file_desc # Storing in map, which file this term belongs to
+        term_posting_temp[temp[0]] = temp[1]
+        heapq.heappush(heap,temp[0])
+
+    
+    # print("---------------")
+    # print(heap)
+    # print("======================================================")
+
+if m<position_mod-1 :
+    print( " inside lasttttttt loopp ")
+    print(" range : ",range)
+    print(" top : ",top)
+    print(" fin name :",fin.name)
+    range += top + ":" + fin.name +"\n" # making it of the form -    aaaa-bbbd:index_file_0
+    # print(" range : ",range)
+    secondary_index.write(range)
+    secondary_index.close()
+    fin.close()
+
+for file in file_desc_list:
+    file.close()
+# f1.close()
+# f2.close()
+# f3.close()
+# f4.close()
+
+
+end2 = time.time()
+
+total_time_taken += end2-start2
+
+print(" PREPROCESSING + INDEX CREATION TIME FROM CHUNK : ",total_time_taken)
