@@ -5,6 +5,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords 
 from nltk.stem import PorterStemmer
+from collections import OrderedDict
 import re
 import os
 import sys
@@ -123,12 +124,12 @@ class WikiXmlHandler(sx.handler.ContentHandler):
         keys = list(self._id_title_map.keys())
         first_id = keys[0]
         last_id = keys[-1]
-        print("idtitle_file_" + str(first_id) + "-" + str(last_id))
+        # print("idtitle_file_" + str(first_id) + "-" + str(last_id))
         
         f2 = open(folder_path + "idtitle_file_" + str(first_id),"w")
         secondary_index_entry = str(first_id) + "-" + str(last_id) + ":" + folder_path + "idtitle_file_" + str(first_id)
         secondary_index_idtitle.write(secondary_index_entry+"\n")
-        print(" self._id_title_map : ",self._id_title_map)
+        # print(" self._id_title_map : ",self._id_title_map)
         for key,value in self._id_title_map.items():
             f2.write(key.strip()+"->"+value+"\n")
         f.close()
@@ -380,6 +381,10 @@ if len(handler._pages) > 0:
 
 secondary_index_idtitle.close()
 
+doc_file = open(folder_path + "total_docs", 'w+')
+doc_file.write(str(global_page_count))
+doc_file.close()
+
 """
 ================================================================================================================================
 MERGING THE INDEX FILE CHUNKS TO FORM THE FINAL INDEX FILES WITH TERMS SORTED LEXICOGRAPHICALLY ON WHICH SEARCH CAN BE PERFORMED
@@ -405,10 +410,12 @@ start2 = time.time()
 # f4 = open(folder_path+"i_4", 'r+')
 
 file_desc_list = []
+file_name_to_file = {}
 # opening the chunk files
 for i in range(1,chunk_no+1):
     temp_file = open(folder_path + "i_" + str(i), 'r+')
     file_desc_list.append(temp_file)
+    file_name_to_file[temp_file.name] = temp_file
     # print(file_desc_list)
 
 
@@ -419,9 +426,10 @@ term_posting_temp = {}
 
 # Reading first line from all the files for creating the heap from scratch
 heap = []
-
+heapq.heapify(heap)
 for file in file_desc_list:
     temp = file.readline()[:-1].split("-")
+    heapq.heappush(heap,(temp[0], file.name))
     if temp[0] in term_posting_temp:
         x = term_posting_temp[temp[0]]
         term_posting_temp[temp[0]] =  x + "," + temp[1]
@@ -433,9 +441,8 @@ for file in file_desc_list:
         while flag:
             if temp[0] not in term_posting_temp: 
                 flag = False
-                term_to_file[temp[0]] = file # Storing in map, which file this term belongs to
+                heapq.heappush(heap,(temp[0],file.name))
                 term_posting_temp[temp[0]] = temp[1]
-                heapq.heappush(heap,temp[0])
             else:
                 x = term_posting_temp[temp[0]]
                 term_posting_temp[temp[0]] =  x + "," + temp[1]
@@ -444,15 +451,24 @@ for file in file_desc_list:
                     continue
                 temp = line[:-1].split("-")
     else:
-        term_to_file[temp[0]] = file # Storing in map, which file this term belongs to
+        heapq.heappush(heap,(temp[0],file.name))
         term_posting_temp[temp[0]] = temp[1]
-        heapq.heappush(heap,temp[0])
 
 pointer_position = 0
 position_mod = 25000
 file_id = 0
-fin =  open(folder_path+"index_file_"+ str(file_id), 'w+') # this file stores all terms starting with numbers 
 
+if len(term_posting_temp) == position_mod:
+    lower_limit = list(term_posting_temp.keys())[0]
+    upper_limit = list(term_posting_temp.keys())[-1]
+    f = open(folder_path+"index_file_"+ str(file_id), 'w+')  
+    rng = lower_limit+'-'+upper_limit +':' + f.name +"\n"
+    secondary_index.write(rng)
+    for key in sorted(term_posting_temp):
+        f.write(key+'-'+term_posting_temp[key]+'\n')
+    f.close()
+    file_id += position_mod
+    term_posting_temp = {}
 # print("---------------")
 # print(heap)
 # print("======================================================")
@@ -460,40 +476,15 @@ fin =  open(folder_path+"index_file_"+ str(file_id), 'w+') # this file stores al
 while len(heap) > 0:
     m = pointer_position % position_mod
     top = heapq.heappop(heap)
-
     # to decide which file next to be read
-    file_desc = term_to_file[top]
-    file_entry = top + "-" + term_posting_temp[top] + "\n"
-    # print(" TOP POPPED :",top)
-    # print(" FILE ENTRY : ",file_entry)
-
-    if m == 0: # File pointer at the first line of some index file
-        range = top +"-"   # starting with lower limit of the range eg: if the entry has to be aaaa-bbbd : index_file_0, then we r toing '<top> -' here
-        fin.write(file_entry)
-        pointer_position = (pointer_position + 1) # Incrementing the pointer in the final index file 
-        file_id += 1
+    file_desc = file_name_to_file[top[1]] # the tuple obtained as top has term and file name 
     
-    elif m == position_mod-1:
-        range += top + ":" + fin.name +"\n" # making it of the form -    aaaa-bbbd:index_file_0
-        # print(" range : ",range)
-        secondary_index.write(range)
-        fin.write(file_entry)
-        fin.close()
-        file_id += 1
-        fin = open(folder_path+"index_file_"+ str(file_id), 'w+')  
-        pointer_position = 0
-
-    else:
-        fin.write(file_entry)   
-        pointer_position = (pointer_position + 1) # Incrementing the pointer in the final index file 
-        file_id += 1
-    
-    del term_to_file[top] # Deleting the key-value for the term that is already added to the final index file
-
+    # Reading the next element
     line = file_desc.readline()
-    if not line: # When the content of this file is over, just go and pop another min from the heap and check for it's next element
+    if not line:
         continue
     temp = line[:-1].split("-")
+    heapq.heappush(heap,(temp[0], file_desc.name))
     if temp[0] in term_posting_temp:
         x = term_posting_temp[temp[0]]
         term_posting_temp[temp[0]] =  x + "," + temp[1]
@@ -505,34 +496,46 @@ while len(heap) > 0:
         while flag:
             if temp[0] not in term_posting_temp: 
                 flag = False
-                term_to_file[temp[0]] = file_desc # Storing in map, which file this term belongs to
+                heapq.heappush(heap,(temp[0],file_desc.name))
                 term_posting_temp[temp[0]] = temp[1]
-                heapq.heappush(heap,temp[0])
             else:
                 x = term_posting_temp[temp[0]]
                 term_posting_temp[temp[0]] =  x + "," + temp[1]
                 line = file_desc.readline()
                 if not line:
-                    break
+                    continue
                 temp = line[:-1].split("-")
     else:
-        term_to_file[temp[0]] = file_desc # Storing in map, which file this term belongs to
+        heapq.heappush(heap,(temp[0],file_desc.name))
         term_posting_temp[temp[0]] = temp[1]
-        heapq.heappush(heap,temp[0])
 
-if pointer_position < position_mod-1 :
-    range += top + ":" + fin.name +"\n" # making it of the form -    aaaa-bbbd:index_file_0
-    secondary_index.write(range)
-    secondary_index.close()
-    fin.close()
+
+    if len(term_posting_temp) == position_mod :
+        lower_limit = list(term_posting_temp.keys())[0]
+        upper_limit = list(term_posting_temp.keys())[-1]
+        f = open(folder_path+"index_file_"+ str(file_id), 'w+')  
+        rng = lower_limit+'-'+upper_limit +':' + f.name +"\n"
+        secondary_index.write(rng)
+        for key in sorted(term_posting_temp):
+            f.write(key+'-'+term_posting_temp[key]+'\n')
+        f.close()
+        file_id += position_mod
+        term_posting_temp = {}
+
+if len(term_posting_temp) < position_mod-1 :
+    lower_limit = list(term_posting_temp.keys())[0]
+    upper_limit = list(term_posting_temp.keys())[-1]
+    f = open(folder_path+"index_file_"+ str(file_id), 'w+')  
+    rng = lower_limit+'-'+upper_limit +':' + f.name +"\n"
+    secondary_index.write(rng)
+    for key in sorted(term_posting_temp):
+        f.write(key+'-'+term_posting_temp[key]+'\n')
+    f.close()
+    file_id += position_mod
+    term_posting_temp = {}
 
 for file in file_desc_list:
     file.close()
-# f1.close()
-# f2.close()
-# f3.close()
-# f4.close()
-
 
 end2 = time.time()
 
