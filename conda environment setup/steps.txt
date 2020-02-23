@@ -1,0 +1,14 @@
+People using python for the project should ensure that your code works as expected in this environment (This is important because this is the environment on the machine where your code will be evaluated). We have added all the packages that we think you will need for this project. If you need some package that is not provided here, contact one of the TAs. DO NOT use any library/package that is not included here without contacting one of us beforehand.
+
+
+This environment is for python 3.7.3
+
+To install it on your systems:
+
+1) Save this file as "environment.yml"
+
+2) Install conda
+
+3) Run "conda env create -f environment.yml" 
+
+4) Run "conda activate ire_project"
